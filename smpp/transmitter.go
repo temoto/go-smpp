@@ -494,10 +494,11 @@ func (t *Transmitter) submitMsgMulti(sm *ShortMessage, p pdu.Body, dataCoding ui
 
 // QueryResp contains the parsed the response of a QuerySM request.
 type QueryResp struct {
-	MsgID     string
-	MsgState  string
-	FinalDate string
-	ErrCode   uint8
+	MsgID        string
+	MsgStateCode uint8
+	MsgState     string
+	FinalDate    string
+	ErrCode      uint8
 }
 
 // QuerySM queries the delivery status of a message. It requires the
@@ -525,7 +526,7 @@ func (t *Transmitter) QuerySM(src, msgid string, srcTON, srcNPI uint8) (*QueryRe
 	if ms == nil {
 		return nil, fmt.Errorf("no state available")
 	}
-	qr := &QueryResp{MsgID: msgid}
+	qr := &QueryResp{MsgID: msgid, MsgStateCode: ms.Bytes()[0]}
 	switch ms.Bytes()[0] {
 	case 0:
 		qr.MsgState = "SCHEDULED"

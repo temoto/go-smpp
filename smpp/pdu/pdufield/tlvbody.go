@@ -71,6 +71,11 @@ func (tlv *TLVBody) Bytes() []byte {
 	return tlv.data
 }
 
+func (tlv *TLVBody) Set(d []byte) {
+	tlv.data = d
+	tlv.Len = uint16(len(d))
+}
+
 // SerializeTo serializes TLV data to its binary form.
 func (tlv *TLVBody) SerializeTo(w io.Writer) error {
 	b := make([]byte, 4+len(tlv.data))
