@@ -110,8 +110,8 @@ func decodeFields(pdu decoder, b []byte) (Body, error) {
 	if err != nil {
 		return nil, err
 	}
-	t, err := l.DecodeTLV(r)
-	if err != nil {
+	t := pdu.TLVFields()
+	if err = t.Decode(r); err != nil {
 		return nil, err
 	}
 	pdu.setup(f, t)
